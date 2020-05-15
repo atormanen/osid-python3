@@ -179,8 +179,8 @@ class SDCardDupe(object):
                 cmd_blocksize_output = subprocess.check_output(get_disksize_cmd, shell=True).decode("utf-8").rstrip("\n")
                 device_size_gb = str(round(((int(cmd_blocksize_output) / 2) / 1024) / 1024, 2)) + 'G';
                 # list_devices[device_name] = str(device_size_gb) + 'G'
-                if(device_name.find("loop") == -1):
-                    list_devices.append({'name': "/dev/"+device_name, 'size': device_size_gb})
+                #if(device_name.find("loop") == -1):
+                list_devices.append({'name': "/dev/"+device_name, 'size': device_size_gb})
 
         # send the data as a json
         cherrypy.response.headers['Content-Type'] = 'application/json'
