@@ -11,5 +11,6 @@ sudo chmod 0777 /root/osid-python3/system/run_app.sh
 mkdir -p /etc/osid/imgroot/
 
 
-#test = $(ip route get 8.8.8.8 | sed -n '/src/{s/.*src *\([^ ]*\).*/\1/p;q}')
-sed -i 's/^Host = localhost/Host = 10.10.104.105$test/g' server.ini
+ip=$(ip -o addr show up primary scope global |
+      while read -r num dev fam addr rest; do echo ${addr%/*}; done)
+sed -i 's/^Host = localhost/Host = $ip/g' /root/osid-python3/system/server.ini
