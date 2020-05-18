@@ -109,7 +109,7 @@ class SDCardDupe(object):
             # Run dd command and output status into the progress.info file
             #sudo dcfldd bs=4M if= *imgfile* of=deviceName sizeprobe=if statusinterval=1 2>&1
             dd_cmd = "gunzip -c " + img_file
-            dd_cmd += " | sudo dcfldd bs=4M if= of=" + " of=".join(devices)
+            dd_cmd += " | sudo dcfldd bs=4M of=" + " of=".join(devices)
             dd_cmd += " sizeprobe=if statusinterval=1 2>&1 | sudo tee "
             dd_cmd += config_parse['DuplicatorSettings']['Logs'] + "/progress.info"
             dd_cmd += " && echo \"osid_completed_task\" | sudo tee -a "
