@@ -96,14 +96,25 @@ class SDCardDupe(object):
             out.write(os.path.basename(img_file))
         out.close()
 
-        # Run dd command and output status into the progress.info file
-        #sudo dcfldd bs=4M if= *imgfile* of=deviceName sizeprobe=if statusinterval=1 2>&1
-        dd_cmd = "sudo dcfldd bs=4M if=" + img_file
-        dd_cmd += " of=" + " of=".join(devices)
-        dd_cmd += " sizeprobe=if statusinterval=1 2>&1 | sudo tee "
-        dd_cmd += config_parse['DuplicatorSettings']['Logs'] + "/progress.info"
-        dd_cmd += " && echo \"osid_completed_task\" | sudo tee -a "
-        dd_cmd += config_parse['DuplicatorSettings']['Logs'] + "/progress.info"
+        if not(img_file.find(".img") == -1):
+            # Run dd command and output status into the progress.info file
+            #sudo dcfldd bs=4M if= *imgfile* of=deviceName sizeprobe=if statusinterval=1 2>&1
+            dd_cmd = "sudo dcfldd bs=4M if=" + img_file
+            dd_cmd += " of=" + " of=".join(devices)
+            dd_cmd += " sizeprobe=if statusinterval=1 2>&1 | sudo tee "
+            dd_cmd += config_parse['DuplicatorSettings']['Logs'] + "/progress.info"
+            dd_cmd += " && echo \"osid_completed_task\" | sudo tee -a "
+            dd_cmd += config_parse['DuplicatorSettings']['Logs'] + "/progress.info"
+        if not(img_file.find(".gz") == -1):
+            # Run dd command and output status into the progress.info file
+            #sudo dcfldd bs=4M if= *imgfile* of=deviceName sizeprobe=if statusinterval=1 2>&1
+            dd_cmd = "gunzip -c " + img_file
+            dd_cmd += " | sudo dcfldd bs=4M if= of=" + " of=".join(devices)
+            dd_cmd += " sizeprobe=if statusinterval=1 2>&1 | sudo tee "
+            dd_cmd += config_parse['DuplicatorSettings']['Logs'] + "/progress.info"
+            dd_cmd += " && echo \"osid_completed_task\" | sudo tee -a "
+            dd_cmd += config_parse['DuplicatorSettings']['Logs'] + "/progress.info"
+
 
         # Planned to run this in localhost only.
         # But if there are plans to put this on the network, this is a security issue
@@ -204,7 +215,17 @@ class SDCardDupe(object):
         for img_file in os.listdir(config_parse['DuplicatorSettings']['ImagePath']):
             img_fullpath = os.path.join(config_parse['DuplicatorSettings']['ImagePath'], img_file)
             if os.path.isfile(img_fullpath) and  os.path.splitext(img_file)[1] == '.img':
+                # get the size of the image
+                img_filesize_cmd = "ls -sh " + img_fullpath
+                img_size_cmd_output = subprocess.check_output(img_filesize_cmd, shell=True).decode("utf-8").rstrip("\n")
 
+                # output is "Size Filename"
+                # img_size_gb = round(((int(img_size_cmd_output.split(' ')[0]) / 2) / 1024) / 1024, 2);
+                img_size_gb = img_size_cmd_output.split(' ')[0]
+
+                # prep the data to send
+                list_images.append({'filename': img_file, 'fullpath': img_fullpath, 'filesize': img_size_gb})
+            elif os.path.isfile(img_fullpath) and  os.path.splitext(img_file)[1] == '.gz':
                 # get the size of the image
                 img_filesize_cmd = "ls -sh " + img_fullpath
                 img_size_cmd_output = subprocess.check_output(img_filesize_cmd, shell=True).decode("utf-8").rstrip("\n")
