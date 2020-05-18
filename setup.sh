@@ -8,12 +8,15 @@ sudo pip3 install cherrypy
 sudo mkdir /root/osid-python3/system/sample
 sudo mv /root/osid-python3/system/*.sample /root/osid-python3/system/sample
 
+#Copy preconfigured files to system folder
+sudo cp /root/osid-python3/preconfigured/* /root/osid-python3/system/
+sudo chmod 0777 /root/osid-python3/system/run_app.sh
+
+sudo cp /root/osid-python3/preconfigured/osid-python.service /lib/systemd/system/
+
+#Create directory for access log
 sudo mkdir /var/osid/
 sudo touch /var/osid/access.log
-
-#Move preconfigured files to system folder
-sudo mv /root/osid-python3/preconfigured/* /root/osid-python3/system/
-sudo chmod 0777 /root/osid-python3/system/run_app.sh
 
 #Create directory for image store
 mkdir -p /etc/osid/imgroot/
@@ -23,5 +26,9 @@ ips=$(ip -o addr show up primary scope global |
       while read -r num dev fam addr rest; do echo ${addr%/*}; done)
 sed -i "s/^Host = localhost/Host = ${ips}/g" /root/osid-python3/system/server.ini
 
-cd /root/osid-python3/system
-./run_app.sh
+#Run application
+#cd /root/osid-python3/system
+#./run_app.sh
+sudo systemctl daemon-reload
+sudo systemctl enable dummy.service
+sudo systemctl start dummy.service
