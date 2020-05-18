@@ -96,7 +96,7 @@ class SDCardDupe(object):
             out.write(os.path.basename(img_file))
         out.close()
 
-        if not(img_file.find(".img") == -1):
+        if(".img" in img_file):
             # Run dd command and output status into the progress.info file
             #sudo dcfldd bs=4M if= *imgfile* of=deviceName sizeprobe=if statusinterval=1 2>&1
             dd_cmd = "sudo dcfldd bs=4M if=" + img_file
@@ -105,7 +105,7 @@ class SDCardDupe(object):
             dd_cmd += config_parse['DuplicatorSettings']['Logs'] + "/progress.info"
             dd_cmd += " && echo \"osid_completed_task\" | sudo tee -a "
             dd_cmd += config_parse['DuplicatorSettings']['Logs'] + "/progress.info"
-        if not(img_file.find(".gz") == -1):
+        if(".gz" in img_file):
             # Run dd command and output status into the progress.info file
             #sudo dcfldd bs=4M if= *imgfile* of=deviceName sizeprobe=if statusinterval=1 2>&1
             dd_cmd = "gunzip -c " + img_file
