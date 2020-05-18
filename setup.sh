@@ -9,10 +9,11 @@ sudo mkdir /root/osid-python3/system/sample
 sudo mv /root/osid-python3/system/*.sample /root/osid-python3/system/sample
 
 #Copy preconfigured files to system folder
-sudo cp /root/osid-python3/preconfigured/* /root/osid-python3/system/
+sudo cp /root/osid-python3/preconfigured/server.ini /root/osid-python3/system/
+sudo cp /root/osid-python3/preconfigured/run_app.sh /root/osid-python3/system/
 sudo chmod 0777 /root/osid-python3/system/run_app.sh
 
-sudo cp /root/osid-python3/preconfigured/osid-python.service /lib/systemd/system/
+sudo cp /root/osid-python3/preconfigured/osid-python.service /etc/systemd/system/
 
 #Create directory for access log
 sudo mkdir /var/osid/
@@ -30,5 +31,5 @@ sed -i "s/^Host = localhost/Host = ${ips}/g" /root/osid-python3/system/server.in
 #cd /root/osid-python3/system
 #./run_app.sh
 sudo systemctl daemon-reload
-sudo systemctl enable dummy.service
-sudo systemctl start dummy.service
+sudo systemctl enable osid-python.service
+sudo systemctl start osid-python.service

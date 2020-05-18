@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 sudo rm /root/osid-python3/system/server.ini
-sudo cp /root/osid-python3/preconfigured/server.ini
+sudo cp /root/osid-python3/preconfigured/server.ini /root/osid-python3/system/
 
 #Add host ip to server.ini config file
 ips=$(ip -o addr show up primary scope global |
