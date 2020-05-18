@@ -8,6 +8,9 @@ sudo pip3 install cherrypy
 sudo mkdir /root/osid-python3/system/sample
 sudo mv /root/osid-python3/system/*.sample /root/osid-python3/system/sample
 
+sudo mkdir /var/osid/
+sudo touch /var/osid/access.log
+
 #Move preconfigured files to system folder
 sudo mv /root/osid-python3/preconfigured/* /root/osid-python3/system/
 sudo chmod 0777 /root/osid-python3/system/run_app.sh
