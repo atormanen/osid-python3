@@ -32,7 +32,7 @@ cherrypy (through pip)
 TODO: Just run the setup script
 
 ```
-sudo python3 setup.py
+sudo python3 setup.sh
 ```
 
 ## Manual Installation
