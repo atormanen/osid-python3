@@ -27,6 +27,9 @@ ips=$(ip -o addr show up primary scope global |
       while read -r num dev fam addr rest; do echo ${addr%/*}; done)
 sed -i "s/^Host = localhost/Host = ${ips}/g" /root/osid-python3/system/server.ini
 
+echo "*****Starting service*****"
 sudo systemctl daemon-reload
 sudo systemctl enable osid-python.service
 sudo systemctl start osid-python.service
+
+echo "*****Started on ${ips}*****"
