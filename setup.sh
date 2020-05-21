@@ -31,5 +31,5 @@ sed -i "s/^Host = localhost/Host = ${ips}/g" /root/osid-python3/system/server.in
 #cd /root/osid-python3/system
 #./run_app.sh
 sudo systemctl daemon-reload
-#sudo systemctl enable osid-python.service
-#sudo systemctl start osid-python.service
+sudo systemctl enable osid-python.service
+sudo systemctl start osid-python.service

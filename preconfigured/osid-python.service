@@ -3,6 +3,7 @@ Description=Image duplicator
 After=multi-user.target
 
 [Service]
+Type=forking
 ExecStart=/root/osid-python3/system/run_app.sh
 
 [Install]
