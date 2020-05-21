@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+#Remove old server.ini file and copy preconfigured file so we can readd the
+#ip address
 sudo rm /root/osid-python3/system/server.ini
 sudo cp /root/osid-python3/preconfigured/server.ini /root/osid-python3/system/
 
